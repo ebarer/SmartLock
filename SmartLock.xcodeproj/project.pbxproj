@@ -1,0 +1,420 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CEBF55A71A294D93000C1FCB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBF55A61A294D93000C1FCB /* AppDelegate.swift */; };
+		CEBF55A91A294D93000C1FCB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBF55A81A294D93000C1FCB /* ViewController.swift */; };
+		CEBF55AC1A294D93000C1FCB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEBF55AA1A294D93000C1FCB /* Main.storyboard */; };
+		CEBF55AE1A294D93000C1FCB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEBF55AD1A294D93000C1FCB /* Images.xcassets */; };
+		CEBF55B11A294D93000C1FCB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBF55AF1A294D93000C1FCB /* LaunchScreen.xib */; };
+		CEBF55BD1A294D93000C1FCB /* SmartLockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBF55BC1A294D93000C1FCB /* SmartLockTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CEBF55B71A294D93000C1FCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CEBF55991A294D93000C1FCB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CEBF55A01A294D93000C1FCB;
+			remoteInfo = SmartLock;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		CEBF55A11A294D93000C1FCB /* SmartLock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartLock.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEBF55A51A294D93000C1FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEBF55A61A294D93000C1FCB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CEBF55A81A294D93000C1FCB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CEBF55AB1A294D93000C1FCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CEBF55AD1A294D93000C1FCB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		CEBF55B01A294D93000C1FCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		CEBF55B61A294D93000C1FCB /* SmartLockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartLockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEBF55BB1A294D93000C1FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEBF55BC1A294D93000C1FCB /* SmartLockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartLockTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CEBF559E1A294D93000C1FCB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEBF55B31A294D93000C1FCB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CEBF55981A294D93000C1FCB = {
+			isa = PBXGroup;
+			children = (
+				CEBF55A31A294D93000C1FCB /* SmartLock */,
+				CEBF55B91A294D93000C1FCB /* SmartLockTests */,
+				CEBF55A21A294D93000C1FCB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CEBF55A21A294D93000C1FCB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CEBF55A11A294D93000C1FCB /* SmartLock.app */,
+				CEBF55B61A294D93000C1FCB /* SmartLockTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CEBF55A31A294D93000C1FCB /* SmartLock */ = {
+			isa = PBXGroup;
+			children = (
+				CEBF55A61A294D93000C1FCB /* AppDelegate.swift */,
+				CEBF55A81A294D93000C1FCB /* ViewController.swift */,
+				CEBF55AA1A294D93000C1FCB /* Main.storyboard */,
+				CEBF55AD1A294D93000C1FCB /* Images.xcassets */,
+				CEBF55AF1A294D93000C1FCB /* LaunchScreen.xib */,
+				CEBF55A41A294D93000C1FCB /* Supporting Files */,
+			);
+			path = SmartLock;
+			sourceTree = "<group>";
+		};
+		CEBF55A41A294D93000C1FCB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CEBF55A51A294D93000C1FCB /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CEBF55B91A294D93000C1FCB /* SmartLockTests */ = {
+			isa = PBXGroup;
+			children = (
+				CEBF55BC1A294D93000C1FCB /* SmartLockTests.swift */,
+				CEBF55BA1A294D93000C1FCB /* Supporting Files */,
+			);
+			path = SmartLockTests;
+			sourceTree = "<group>";
+		};
+		CEBF55BA1A294D93000C1FCB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CEBF55BB1A294D93000C1FCB /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CEBF55A01A294D93000C1FCB /* SmartLock */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEBF55C01A294D93000C1FCB /* Build configuration list for PBXNativeTarget "SmartLock" */;
+			buildPhases = (
+				CEBF559D1A294D93000C1FCB /* Sources */,
+				CEBF559E1A294D93000C1FCB /* Frameworks */,
+				CEBF559F1A294D93000C1FCB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SmartLock;
+			productName = SmartLock;
+			productReference = CEBF55A11A294D93000C1FCB /* SmartLock.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CEBF55B51A294D93000C1FCB /* SmartLockTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEBF55C31A294D93000C1FCB /* Build configuration list for PBXNativeTarget "SmartLockTests" */;
+			buildPhases = (
+				CEBF55B21A294D93000C1FCB /* Sources */,
+				CEBF55B31A294D93000C1FCB /* Frameworks */,
+				CEBF55B41A294D93000C1FCB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CEBF55B81A294D93000C1FCB /* PBXTargetDependency */,
+			);
+			name = SmartLockTests;
+			productName = SmartLockTests;
+			productReference = CEBF55B61A294D93000C1FCB /* SmartLockTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CEBF55991A294D93000C1FCB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0620;
+				ORGANIZATIONNAME = "Elliot Barer";
+				TargetAttributes = {
+					CEBF55A01A294D93000C1FCB = {
+						CreatedOnToolsVersion = 6.2;
+					};
+					CEBF55B51A294D93000C1FCB = {
+						CreatedOnToolsVersion = 6.2;
+						TestTargetID = CEBF55A01A294D93000C1FCB;
+					};
+				};
+			};
+			buildConfigurationList = CEBF559C1A294D93000C1FCB /* Build configuration list for PBXProject "SmartLock" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CEBF55981A294D93000C1FCB;
+			productRefGroup = CEBF55A21A294D93000C1FCB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CEBF55A01A294D93000C1FCB /* SmartLock */,
+				CEBF55B51A294D93000C1FCB /* SmartLockTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CEBF559F1A294D93000C1FCB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEBF55AC1A294D93000C1FCB /* Main.storyboard in Resources */,
+				CEBF55B11A294D93000C1FCB /* LaunchScreen.xib in Resources */,
+				CEBF55AE1A294D93000C1FCB /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEBF55B41A294D93000C1FCB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CEBF559D1A294D93000C1FCB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEBF55A91A294D93000C1FCB /* ViewController.swift in Sources */,
+				CEBF55A71A294D93000C1FCB /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEBF55B21A294D93000C1FCB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEBF55BD1A294D93000C1FCB /* SmartLockTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CEBF55B81A294D93000C1FCB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CEBF55A01A294D93000C1FCB /* SmartLock */;
+			targetProxy = CEBF55B71A294D93000C1FCB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CEBF55AA1A294D93000C1FCB /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CEBF55AB1A294D93000C1FCB /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CEBF55AF1A294D93000C1FCB /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CEBF55B01A294D93000C1FCB /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CEBF55BE1A294D93000C1FCB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CEBF55BF1A294D93000C1FCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CEBF55C11A294D93000C1FCB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SmartLock/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		CEBF55C21A294D93000C1FCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SmartLock/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		CEBF55C41A294D93000C1FCB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SmartLockTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartLock.app/SmartLock";
+			};
+			name = Debug;
+		};
+		CEBF55C51A294D93000C1FCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SmartLockTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartLock.app/SmartLock";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CEBF559C1A294D93000C1FCB /* Build configuration list for PBXProject "SmartLock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEBF55BE1A294D93000C1FCB /* Debug */,
+				CEBF55BF1A294D93000C1FCB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CEBF55C01A294D93000C1FCB /* Build configuration list for PBXNativeTarget "SmartLock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEBF55C11A294D93000C1FCB /* Debug */,
+				CEBF55C21A294D93000C1FCB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		CEBF55C31A294D93000C1FCB /* Build configuration list for PBXNativeTarget "SmartLockTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEBF55C41A294D93000C1FCB /* Debug */,
+				CEBF55C51A294D93000C1FCB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CEBF55991A294D93000C1FCB /* Project object */;
+}
