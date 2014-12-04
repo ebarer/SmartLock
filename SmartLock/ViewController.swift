@@ -10,7 +10,8 @@ import UIKit
 import CoreBluetooth
 
 class ViewController: UIViewController {
-	@IBOutlet weak var textField: UITextView!		// Interface text view
+	@IBOutlet weak var textField:UITextView!		// Interface text view
+	@IBOutlet weak var proximitySwitch:UISwitch!
 
 	var smtLock = SmartLock()
 	var activityOld:String?
@@ -19,7 +20,8 @@ class ViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		smtLock.startUpCentralManager()
-		var consoleTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("updateConsole"), userInfo: nil, repeats: true)
+		proximitySwitch.on = false
+		var consoleTimer = NSTimer.scheduledTimerWithTimeInterval(0.25, target: self, selector: Selector("updateConsole"), userInfo: nil, repeats: true)
 	}
 
 	@IBAction func lockButton() {
@@ -32,6 +34,7 @@ class ViewController: UIViewController {
 	
 	func updateConsole() {
 		if (smtLock.activity != activityOld) {
+			textField.selectable = false
 			textField.text = "\(smtLock.activity)\n" + textField.text
 			activityOld = smtLock.activity
 		}
@@ -45,6 +48,14 @@ class ViewController: UIViewController {
 		// Lock before disconnecting
 		smtLock.lockSmartLock()
 		smtLock.disconnectDevices()
+	}
+	
+	@IBAction func toggleProximity(proximity: UISwitch) {
+		if (proximity.on) {
+			smtLock.rssiTimerEnable()
+		} else {
+			smtLock.rssiTimerDisable()
+		}
 	}
 	
 	// Clear debug log

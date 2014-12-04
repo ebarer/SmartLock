@@ -54,10 +54,12 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	var activity:String!							// Lock activity
 	
 	// Signal strength (RSSI) in dBm
-	var rssiNow:Int!								// Current RSSI value
-	var rssiTimer:NSTimer!							// RSSI update timer
+	var rssiTimer:NSTimer!								// RSSI update timer
+	var rssiNow:Int!									// Current RSSI value
+	var rssiOld = [Int](count: 3, repeatedValue: 0)		// Previous RSSI values
 	
 	// UUIDs for SmartLock UART Service and Characteristics (RX/TX)
+	var smartLockNSUUID:NSUUID!
 	let uartServiceUUID = CBUUID(string:"6E400001-B5A3-F393-E0A9-E50E24DCCA9E")
 	let txCharacteristicUUID = CBUUID(string:"6E400002-B5A3-F393-E0A9-E50E24DCCA9E")
 	let rxCharacteristicUUID = CBUUID(string:"6E400003-B5A3-F393-E0A9-E50E24DCCA9E")
@@ -68,9 +70,6 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 		bluetoothState = false
 		connectState = false
 		lockStatus = Status.Locked
-		
-		// Initialize a timer to check RSSI value every 1.5 seconds while connected
-		rssiTimer = NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: Selector("updateRSSI"), userInfo: nil, repeats: true)
 		rssiNow = 0
 	}
 	
@@ -85,10 +84,17 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	
 	// Scans for SmartLocks by searching for advertisements with UART services.
 	func discoverDevices() {
-		centralManager.retrievePeripheralsWithIdentifiers(smartLock)
-		
-		centralManager.scanForPeripheralsWithServices([uartServiceUUID], options: [CBCentralManagerScanOptionAllowDuplicatesKey: false])
-		output("Scanning...")
+		// Avoid scanning by reconnecting to known good SmartLock
+		// If not found, scan for other devices
+		if (smartLockNSUUID != nil) {
+			var peripherals = centralManager.retrievePeripheralsWithIdentifiers([smartLockNSUUID!])
+			for peripheral in peripherals {
+				centralManager.connectPeripheral(peripheral as CBPeripheral, options: nil)
+			}
+		} else {
+			centralManager.scanForPeripheralsWithServices([uartServiceUUID], options: [CBCentralManagerScanOptionAllowDuplicatesKey: false])
+			output("Scanning...")
+		}
 	}
 	
 	func disconnectDevices() {
@@ -104,6 +110,7 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 		case .PoweredOff:
 			output("Bluetooth Off")
 			bluetoothState = false
+			disconnectDevices()
 		case .PoweredOn:
 			output("Bluetooth On")
 			bluetoothState = true
@@ -121,6 +128,7 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 		// Connect to SmartLock
 		output("Discovered")
 		smartLock = peripheral
+		smartLockNSUUID = peripheral.identifier
 		centralManager.connectPeripheral(peripheral, options: nil)
 	}
 	
@@ -163,8 +171,9 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 		for characteristic in service.characteristics as [CBCharacteristic] {
 			switch(characteristic.UUID) {
 			case rxCharacteristicUUID:
-				peripheral.setNotifyValue(true, forCharacteristic: characteristic)
 				rxCharacteristic = characteristic
+				smartLock.readValueForCharacteristic(rxCharacteristic)
+				peripheral.setNotifyValue(true, forCharacteristic: rxCharacteristic)
 			case txCharacteristicUUID:
 				txCharacteristic = characteristic
 			default:
@@ -213,34 +222,43 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 			}
 		}
 	}
+	
+	func rssiTimerEnable() {
+		// Initialize a timer to check RSSI value every 1 seconds while connected
+		rssiTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("updateRSSI"), userInfo: nil, repeats: true)
+	}
+	
+	func rssiTimerDisable() {
+		rssiTimer.invalidate()
+	}
 
 	// Proximity detection
 	func updateRSSI() {
-		let threshold = -75
+		let unlockThreshold = -67
+		let lockThreshold = -73
 		let distance = 0
-		var rssiOld = 0
 		
 		if (smartLock != nil && connectState == true) {
 			smartLock.readRSSI()
 			if(smartLock.RSSI != nil) {
-				rssiOld = rssiNow
+				// Take 4 values for accurate average of RSSI value
+				rssiOld[2] = rssiOld[1]
+				rssiOld[1] = rssiOld[0]
+				rssiOld[0] = rssiNow
 				rssiNow = Int(smartLock.RSSI)
-				distance = 10 * pow(<#Double#>, <#Double#>)
-				output("RSSI: \(rssiNow)[now], \(rssiOld)[old]")
-				smartLock.readValueForCharacteristic(rxCharacteristic)
+				
+				output("Average RSSI: \((rssiNow + rssiOld[0] + rssiOld[1] + rssiOld[2])/4), Threshold: \((lockStatus == Status.Locked) ? unlockThreshold : lockThreshold)")
 
 				// If locked, within range, and moving toward lock: unlock
-				if ((lockStatus == Status.Locked) && (rssiNow >= threshold) && (rssiNow >= threshold)) {
+				if ((lockStatus == Status.Locked) && (((rssiNow + rssiOld[0] + rssiOld[1] + rssiOld[2])/4) > unlockThreshold)) {
 					unlockSmartLock()
 				}
 
 				// If unlocked, leaving range, and moving away from lock: lock
-				if ((lockStatus == Status.Unlocked) && (rssiNow < threshold) && (rssiOld < threshold)) {
+				if ((lockStatus == Status.Unlocked) && (((rssiNow + rssiOld[0] + rssiOld[1] + rssiOld[2])/4) < lockThreshold)) {
 					lockSmartLock()
 				}
 			}
-		} else {
-			discoverDevices()
 		}
 	}
 	
@@ -253,7 +271,7 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	func output(description: String) {
 		let timestamp = generateTimeStamp()
 		println("[\(timestamp)] \(description)")
-		activity = "[\(timestamp)] \(description)"
+		activity = "\(description)"
 	}
 	
 	func generateTimeStamp() -> NSString {
