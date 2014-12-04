@@ -78,10 +78,10 @@
 			isa = PBXGroup;
 			children = (
 				CEBF55A61A294D93000C1FCB /* AppDelegate.swift */,
+				CEBF55AF1A294D93000C1FCB /* LaunchScreen.xib */,
 				CEBF55A81A294D93000C1FCB /* ViewController.swift */,
 				CEBF55AA1A294D93000C1FCB /* Main.storyboard */,
 				CEBF55AD1A294D93000C1FCB /* Images.xcassets */,
-				CEBF55AF1A294D93000C1FCB /* LaunchScreen.xib */,
 				CEBF55A41A294D93000C1FCB /* Supporting Files */,
 			);
 			path = SmartLock;
@@ -336,9 +336,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = SmartLock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -346,6 +348,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = SmartLock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -405,6 +408,7 @@
 				CEBF55C21A294D93000C1FCB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CEBF55C31A294D93000C1FCB /* Build configuration list for PBXNativeTarget "SmartLockTests" */ = {
 			isa = XCConfigurationList;
@@ -413,6 +417,7 @@
 				CEBF55C51A294D93000C1FCB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

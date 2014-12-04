@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  SmartLock
+//  SmartLock iOS Application
 //
-//  Created by Elliot Barer on 2014-11-28.
+//  Created by Elliot Barer on 2014-10-09.
 //  Copyright (c) 2014 Elliot Barer. All rights reserved.
 //
 
