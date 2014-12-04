@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE3325491A3040C600C363AC /* SmartLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3325481A3040C600C363AC /* SmartLock.swift */; };
 		CEBF55A71A294D93000C1FCB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBF55A61A294D93000C1FCB /* AppDelegate.swift */; };
 		CEBF55A91A294D93000C1FCB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBF55A81A294D93000C1FCB /* ViewController.swift */; };
 		CEBF55AC1A294D93000C1FCB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEBF55AA1A294D93000C1FCB /* Main.storyboard */; };
@@ -26,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE3325481A3040C600C363AC /* SmartLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartLock.swift; sourceTree = "<group>"; };
 		CEBF55A11A294D93000C1FCB /* SmartLock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartLock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBF55A51A294D93000C1FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CEBF55A61A294D93000C1FCB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				CEBF55A61A294D93000C1FCB /* AppDelegate.swift */,
 				CEBF55AF1A294D93000C1FCB /* LaunchScreen.xib */,
 				CEBF55A81A294D93000C1FCB /* ViewController.swift */,
+				CE3325481A3040C600C363AC /* SmartLock.swift */,
 				CEBF55AA1A294D93000C1FCB /* Main.storyboard */,
 				CEBF55AD1A294D93000C1FCB /* Images.xcassets */,
 				CEBF55A41A294D93000C1FCB /* Supporting Files */,
@@ -212,6 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE3325491A3040C600C363AC /* SmartLock.swift in Sources */,
 				CEBF55A91A294D93000C1FCB /* ViewController.swift in Sources */,
 				CEBF55A71A294D93000C1FCB /* AppDelegate.swift in Sources */,
 			);
