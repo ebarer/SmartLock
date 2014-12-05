@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE02BA651A31B050001A1BEA /* SmartLockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE02BA641A31B050001A1BEA /* SmartLockViewController.swift */; };
 		CE3325491A3040C600C363AC /* SmartLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3325481A3040C600C363AC /* SmartLock.swift */; };
 		CEBF55A71A294D93000C1FCB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBF55A61A294D93000C1FCB /* AppDelegate.swift */; };
-		CEBF55A91A294D93000C1FCB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBF55A81A294D93000C1FCB /* ViewController.swift */; };
+		CEBF55A91A294D93000C1FCB /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBF55A81A294D93000C1FCB /* DebugViewController.swift */; };
 		CEBF55AC1A294D93000C1FCB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEBF55AA1A294D93000C1FCB /* Main.storyboard */; };
 		CEBF55AE1A294D93000C1FCB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEBF55AD1A294D93000C1FCB /* Images.xcassets */; };
-		CEBF55B11A294D93000C1FCB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBF55AF1A294D93000C1FCB /* LaunchScreen.xib */; };
 		CEBF55BD1A294D93000C1FCB /* SmartLockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBF55BC1A294D93000C1FCB /* SmartLockTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,14 +27,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE02BA641A31B050001A1BEA /* SmartLockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartLockViewController.swift; sourceTree = "<group>"; };
 		CE3325481A3040C600C363AC /* SmartLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartLock.swift; sourceTree = "<group>"; };
 		CEBF55A11A294D93000C1FCB /* SmartLock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartLock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBF55A51A294D93000C1FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CEBF55A61A294D93000C1FCB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CEBF55A81A294D93000C1FCB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CEBF55A81A294D93000C1FCB /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
 		CEBF55AB1A294D93000C1FCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CEBF55AD1A294D93000C1FCB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		CEBF55B01A294D93000C1FCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		CEBF55B61A294D93000C1FCB /* SmartLockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartLockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBF55BB1A294D93000C1FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CEBF55BC1A294D93000C1FCB /* SmartLockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartLockTests.swift; sourceTree = "<group>"; };
@@ -79,10 +79,10 @@
 		CEBF55A31A294D93000C1FCB /* SmartLock */ = {
 			isa = PBXGroup;
 			children = (
-				CEBF55A61A294D93000C1FCB /* AppDelegate.swift */,
-				CEBF55AF1A294D93000C1FCB /* LaunchScreen.xib */,
-				CEBF55A81A294D93000C1FCB /* ViewController.swift */,
 				CE3325481A3040C600C363AC /* SmartLock.swift */,
+				CEBF55A61A294D93000C1FCB /* AppDelegate.swift */,
+				CEBF55A81A294D93000C1FCB /* DebugViewController.swift */,
+				CE02BA641A31B050001A1BEA /* SmartLockViewController.swift */,
 				CEBF55AA1A294D93000C1FCB /* Main.storyboard */,
 				CEBF55AD1A294D93000C1FCB /* Images.xcassets */,
 				CEBF55A41A294D93000C1FCB /* Supporting Files */,
@@ -164,6 +164,7 @@
 				TargetAttributes = {
 					CEBF55A01A294D93000C1FCB = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 5ZJB9DN7AQ;
 					};
 					CEBF55B51A294D93000C1FCB = {
 						CreatedOnToolsVersion = 6.2;
@@ -196,7 +197,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEBF55AC1A294D93000C1FCB /* Main.storyboard in Resources */,
-				CEBF55B11A294D93000C1FCB /* LaunchScreen.xib in Resources */,
 				CEBF55AE1A294D93000C1FCB /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -216,8 +216,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE3325491A3040C600C363AC /* SmartLock.swift in Sources */,
-				CEBF55A91A294D93000C1FCB /* ViewController.swift in Sources */,
+				CEBF55A91A294D93000C1FCB /* DebugViewController.swift in Sources */,
 				CEBF55A71A294D93000C1FCB /* AppDelegate.swift in Sources */,
+				CE02BA651A31B050001A1BEA /* SmartLockViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,14 +247,6 @@
 				CEBF55AB1A294D93000C1FCB /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		CEBF55AF1A294D93000C1FCB /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CEBF55B01A294D93000C1FCB /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -340,7 +333,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = SmartLock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -352,7 +347,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = SmartLock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

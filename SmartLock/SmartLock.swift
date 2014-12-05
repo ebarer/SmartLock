@@ -10,12 +10,23 @@ import UIKit
 import CoreBluetooth
 
 enum Status {
+	case Locking
 	case Locked
+	case Unlocking
 	case Unlocked
-	case None
+	case Unknown
 }
 
 class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
+
+	// Prevent multiple instances of SmartLock from being created
+	class var sharedInstance:SmartLock {
+		struct Static {
+			static let instance:SmartLock = SmartLock()
+		}
+		
+		return Static.instance
+	}
 	
 	// Bluetooth Communication
 	//
@@ -43,20 +54,21 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 // Class members
 //*******************************************************
 	
-	var centralManager:CBCentralManager!			// Bluetooth central manager (iOS Device)
-	var smartLock:CBPeripheral!						// Bluetooth peripheral device (SmartLock)
-	var rxCharacteristic:CBCharacteristic!			// Bluetooth RX characteristic
-	var txCharacteristic:CBCharacteristic!			// Bluetooth TX characteristic
+	var centralManager:CBCentralManager!				// Bluetooth central manager (iOS Device)
+	var smartLock:CBPeripheral!							// Bluetooth peripheral device (SmartLock)
+	var rxCharacteristic:CBCharacteristic!				// Bluetooth RX characteristic
+	var txCharacteristic:CBCharacteristic!				// Bluetooth TX characteristic
 	
-	var bluetoothState:Bool!						// Bluetooth status
-	var connectState:Bool!							// Connection status
-	var lockStatus:Status!							// Lock status
-	var activity:String!							// Lock activity
+	var bluetoothState:Bool!							// Bluetooth status
+	var lockStatus:Status!								// Lock status
+	dynamic var activity:String!						// Lock activity
 	
 	// Signal strength (RSSI) in dBm
 	var rssiTimer:NSTimer!								// RSSI update timer
 	var rssiNow:Int!									// Current RSSI value
 	var rssiOld = [Int](count: 3, repeatedValue: 0)		// Previous RSSI values
+	var lockThreshold = -73								// Locking RSSI threshold
+	var unlockThreshold = -67							// Unlocking RSSI threshold
 	
 	// UUIDs for SmartLock UART Service and Characteristics (RX/TX)
 	var smartLockNSUUID:NSUUID!
@@ -68,7 +80,6 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 		super.init()
 		
 		bluetoothState = false
-		connectState = false
 		lockStatus = Status.Locked
 		rssiNow = 0
 	}
@@ -86,19 +97,21 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	func discoverDevices() {
 		// Avoid scanning by reconnecting to known good SmartLock
 		// If not found, scan for other devices
-		if (smartLockNSUUID != nil) {
-			var peripherals = centralManager.retrievePeripheralsWithIdentifiers([smartLockNSUUID!])
-			for peripheral in peripherals {
-				centralManager.connectPeripheral(peripheral as CBPeripheral, options: nil)
+		if (bluetoothState == true) {
+			if (smartLockNSUUID != nil) {
+				var peripherals = centralManager.retrievePeripheralsWithIdentifiers([smartLockNSUUID!])
+				for peripheral in peripherals {
+					centralManager.connectPeripheral(peripheral as CBPeripheral, options: nil)
+				}
+			} else {
+				centralManager.scanForPeripheralsWithServices([uartServiceUUID], options: [CBCentralManagerScanOptionAllowDuplicatesKey: false])
+				output("\tScanning...")
 			}
-		} else {
-			centralManager.scanForPeripheralsWithServices([uartServiceUUID], options: [CBCentralManagerScanOptionAllowDuplicatesKey: false])
-			output("Scanning...")
 		}
 	}
 	
 	func disconnectDevices() {
-		if(connectState == true) {
+		if(getConnectionState() == true) {
 			centralManager.cancelPeripheralConnection(smartLock)
 		}
 	}
@@ -137,7 +150,6 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 		// Set peripheral delegate so it can receive appropriate callbacks
 		// Check peripheral RSSI value
 		// Investigate UART Service
-		connectState = true
 		output("Connected")
 		
 		peripheral.delegate = self
@@ -147,7 +159,6 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	
 	// Invoked when an existing connection with a SmartLock fails
 	func centralManager(central: CBCentralManager!, didDisconnectPeripheral peripheral: CBPeripheral!, error: NSError!) {
-		connectState = false
 		output("Disconnected")
 	}
 	
@@ -181,6 +192,13 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 			}
 		}
 	}
+
+	// Invoked when the SmartLock receives a request to start or stop providing notifications for a specified characteristic’s value.
+	func peripheral(peripheral: CBPeripheral!, didUpdateNotificationStateForCharacteristic characteristic: CBCharacteristic!, error: NSError!) {
+		if (error != nil) {
+			output("Error: \(error.localizedDescription)")
+		}
+	}
 	
 	// Invoked when the SmartLock notifies the app that the RX characteristic's value has changed
 	func peripheral(peripheral: CBPeripheral!, didUpdateValueForCharacteristic characteristic: CBCharacteristic!, error: NSError!) {
@@ -198,47 +216,59 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 			}
 		}
 	}
+
+	// Determine lock status
+	func getConnectionState() -> Bool {
+		if (smartLock.state == CBPeripheralState.Connected) {
+			return true;
+		} else {
+			discoverDevices()
+			return false;
+		}
+	}
 	
 	// Lock SmartLock
 	func lockSmartLock() {
-		if(connectState == true) {
+		if(getConnectionState() == true) {
 			if(lockStatus == Status.Unlocked) {
 				let txString = "L"
 				let txData = txString.dataUsingEncoding(NSUTF8StringEncoding)
+				lockStatus = Status.Locking
+				output("\tLocking...")
 				smartLock.writeValue(txData, forCharacteristic: txCharacteristic, type: CBCharacteristicWriteType.WithoutResponse)
-				output("Locking...")
 			}
 		}
 	}
 	
 	// Unlock SmartLock
 	func unlockSmartLock() {
-		if(connectState == true) {
+		if(getConnectionState() == true) {
 			if(lockStatus == Status.Locked) {
 				let txString = "U"
 				let txData = txString.dataUsingEncoding(NSUTF8StringEncoding)
+				lockStatus = Status.Unlocking
+				output("\tUnlocking...")
 				smartLock.writeValue(txData, forCharacteristic: txCharacteristic, type: CBCharacteristicWriteType.WithoutResponse)
-				output("Unlocking...")
 			}
 		}
 	}
 	
+	// Enable the RSSI timer for proximity mode
 	func rssiTimerEnable() {
 		// Initialize a timer to check RSSI value every 1 seconds while connected
 		rssiTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("updateRSSI"), userInfo: nil, repeats: true)
 	}
-	
+
+	// Disable the RSSI timer
 	func rssiTimerDisable() {
 		rssiTimer.invalidate()
 	}
 
 	// Proximity detection
 	func updateRSSI() {
-		let unlockThreshold = -67
-		let lockThreshold = -73
-		let distance = 0
+		var rssiAverage:Int
 		
-		if (smartLock != nil && connectState == true) {
+		if (smartLock != nil && getConnectionState() == true) {
 			smartLock.readRSSI()
 			if(smartLock.RSSI != nil) {
 				// Take 4 values for accurate average of RSSI value
@@ -246,16 +276,22 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 				rssiOld[1] = rssiOld[0]
 				rssiOld[0] = rssiNow
 				rssiNow = Int(smartLock.RSSI)
+				rssiAverage = ((rssiNow + rssiOld[0] + rssiOld[1] + rssiOld[2])/4)
 				
-				output("Average RSSI: \((rssiNow + rssiOld[0] + rssiOld[1] + rssiOld[2])/4), Threshold: \((lockStatus == Status.Locked) ? unlockThreshold : lockThreshold)")
+				// Output proximity equation
+				if (lockStatus == Status.Locked) {
+					output("RSSI: \(rssiAverage) > \(unlockThreshold) = \(rssiAverage > unlockThreshold)")
+				} else {
+					output("RSSI: \(rssiAverage) < \(lockThreshold) = \(rssiAverage < lockThreshold)")
+				}
 
 				// If locked, within range, and moving toward lock: unlock
-				if ((lockStatus == Status.Locked) && (((rssiNow + rssiOld[0] + rssiOld[1] + rssiOld[2])/4) > unlockThreshold)) {
+				if ((lockStatus == Status.Locked) && (rssiAverage > unlockThreshold)) {
 					unlockSmartLock()
 				}
 
 				// If unlocked, leaving range, and moving away from lock: lock
-				if ((lockStatus == Status.Unlocked) && (((rssiNow + rssiOld[0] + rssiOld[1] + rssiOld[2])/4) < lockThreshold)) {
+				if ((lockStatus == Status.Unlocked) && (rssiAverage < lockThreshold)) {
 					lockSmartLock()
 				}
 			}
