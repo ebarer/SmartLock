@@ -10,96 +10,96 @@ import UIKit
 
 class DebugViewController: UIViewController {
 	
+	var smrtLock = SmartLock()
+	private var myContext = 0
+	
 	// UI Elements
 	@IBOutlet weak var textField:UITextView!
 	@IBOutlet weak var proximitySwitch:UISwitch!
-	@IBOutlet weak var lockThresholdSlider: UISlider!
-	@IBOutlet weak var lockThresholdLabel: UILabel!
-	@IBOutlet weak var unlockThresholdSlider: UISlider!
-	@IBOutlet weak var unlockThresholdLabel: UILabel!
-
-	private var myContext = 0
-	var smtLock = SmartLock()
+	@IBOutlet weak var lockThresholdSlider:UISlider!
+	@IBOutlet weak var lockThresholdLabel:UILabel!
+	@IBOutlet weak var unlockThresholdSlider:UISlider!
+	@IBOutlet weak var unlockThresholdLabel:UILabel!
 	
 	// When application loads
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		// Start bluetooth central manager
-		smtLock.startUpCentralManager()
+		// Start Bluetooth Central Manager
+		smrtLock.startUpCentralManager()
 		
 		// Disable proximity (for demonstration)
 		proximitySwitch.on = false
-		lockThresholdSlider.value = Float(smtLock.lockThreshold)
-		lockThresholdLabel.text = "Lock Threshold = \(smtLock.lockThreshold)"
-		unlockThresholdSlider.value = Float(smtLock.unlockThreshold)
-		unlockThresholdLabel.text = "Unlock Threshold = \(smtLock.unlockThreshold)"
+		lockThresholdSlider.value = Float(smrtLock.lockThreshold)
+		lockThresholdLabel.text = "Lock Threshold = \(smrtLock.lockThreshold)"
+		unlockThresholdSlider.value = Float(smrtLock.unlockThreshold)
+		unlockThresholdLabel.text = "Unlock Threshold = \(smrtLock.unlockThreshold)"
 		
 		// Watch for changes in "activity" from SmartLock model (for debug console)
-		smtLock.addObserver(self, forKeyPath: "activity", options: .New, context: &myContext)
+		smrtLock.addObserver(self, forKeyPath: "activity", options: .New, context: &myContext)
 	}
 	
 	// Update debug console with activity changes in SmartLock model (MVC)
 	override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
 		if context == &myContext {
 			textField.selectable = false
-			textField.text = "\(smtLock.activity)\n" + textField.text
+			textField.text = "\(smrtLock.activity)\n" + textField.text
 		} else {
 			super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
 		}
 	}
-	
-	// When application quits, remove "activity" observer
-	deinit {
-		smtLock.removeObserver(self, forKeyPath: "activity", context: &myContext)
-	}
 
 	// Toggle lock
 	@IBAction func lockButton() {
-		smtLock.lockSmartLock()
+		smrtLock.lockSmartLock()
 	}
 	
 	// Toggle unlock
 	@IBAction func unlockButton() {
-		smtLock.unlockSmartLock()
+		smrtLock.unlockSmartLock()
 	}
 	
 	// Conncet to existing SmartLock, or search for new
 	@IBAction func connectSmartLock(sender: UIButton) {
-		smtLock.discoverDevices()
+		smrtLock.discoverDevices()
 	}
 
 	// Diconncet SmartLock
 	@IBAction func disconnectSmartLock(sender: UIButton) {
 		// Lock before disconnecting
-		smtLock.lockSmartLock()
-		smtLock.disconnectDevices()
+		smrtLock.lockSmartLock()
+		smrtLock.disconnectFromSmartLock()
 	}
 	
 	// Toggle proximity mode by enabling/disabling the RSSI timer
 	@IBAction func toggleProximity(proximity: UISwitch) {
 		if (proximity.on) {
-			smtLock.rssiTimerEnable()
+			smrtLock.rssiTimerEnable()
 		} else {
-			smtLock.rssiTimerDisable()
+			smrtLock.rssiTimerDisable()
 		}
 	}
 	
 	// Adjust lock threshold value for proximity mode
 	@IBAction func adjustLockThreshold(threshold: UISlider) {
-		smtLock.lockThreshold = Int(threshold.value)
+		smrtLock.lockThreshold = Int(threshold.value)
 		lockThresholdLabel.text = "Lock Threshold = \(Int(threshold.value))"
 	}
 
 	// Adjust unlock threshold value for proximity mode
 	@IBAction func adjustUnlockThreshold(threshold: UISlider) {
-		smtLock.unlockThreshold = Int(threshold.value)
+		smrtLock.unlockThreshold = Int(threshold.value)
 		unlockThresholdLabel.text = "Unlock Threshold = \(Int(threshold.value))"
 	}
 	
 	// Clear debug log
 	@IBAction func clearLog(sender: UIButton) {
 		textField.text = ""
+	}
+
+	// When application quits, remove "activity" observer
+	deinit {
+		smrtLock.removeObserver(self, forKeyPath: "activity", context: &myContext)
 	}
 	
 }

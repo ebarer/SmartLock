@@ -93,6 +93,34 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 		centralManager = CBCentralManager(delegate: self, queue: nil)
 	}
 	
+	// Connect to SmarLock
+	func connectToSmartLock(peripheral: CBPeripheral) {
+		centralManager.connectPeripheral(peripheral as CBPeripheral, options: [CBConnectPeripheralOptionNotifyOnNotificationKey: true])
+	}
+	
+	// Disconnect from SmartLock
+	func disconnectFromSmartLock() {
+		if(smartLock != nil) {
+			centralManager.cancelPeripheralConnection(smartLock)
+		}
+	}
+	
+	// Invoked when the central manager’s state is updated.
+	func centralManagerDidUpdateState(central: CBCentralManager!) {
+		switch (central.state) {
+		case .PoweredOff:
+			output("Bluetooth Off")
+			bluetoothState = false
+			disconnectFromSmartLock()
+		case .PoweredOn:
+			output("Bluetooth On")
+			bluetoothState = true
+			discoverDevices()
+		default:
+			output("Bluetooth Unknown")
+		}
+	}
+	
 	// Scans for SmartLocks by searching for advertisements with UART services.
 	func discoverDevices() {
 		// Avoid scanning by reconnecting to known good SmartLock
@@ -101,35 +129,12 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 			if (smartLockNSUUID != nil) {
 				var peripherals = centralManager.retrievePeripheralsWithIdentifiers([smartLockNSUUID!])
 				for peripheral in peripherals {
-					centralManager.connectPeripheral(peripheral as CBPeripheral, options: nil)
+					connectToSmartLock(peripheral as CBPeripheral)
 				}
 			} else {
 				centralManager.scanForPeripheralsWithServices([uartServiceUUID], options: [CBCentralManagerScanOptionAllowDuplicatesKey: false])
 				output("\tScanning...")
 			}
-		}
-	}
-	
-	func disconnectDevices() {
-		if(getConnectionState() == true) {
-			centralManager.cancelPeripheralConnection(smartLock)
-		}
-	}
-	
-	// Invoked when the central manager’s state is updated. (required)
-	func centralManagerDidUpdateState(central: CBCentralManager!) { //BLE status
-		var msg = ""
-		switch (central.state) {
-		case .PoweredOff:
-			output("Bluetooth Off")
-			bluetoothState = false
-			disconnectDevices()
-		case .PoweredOn:
-			output("Bluetooth On")
-			bluetoothState = true
-			discoverDevices()
-		default:
-			output("Bluetooth Unknown")
 		}
 	}
 	
@@ -142,7 +147,7 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 		output("Discovered")
 		smartLock = peripheral
 		smartLockNSUUID = peripheral.identifier
-		centralManager.connectPeripheral(peripheral, options: nil)
+		connectToSmartLock(peripheral)
 	}
 	
 	// Invoked when a connection is successfully created with a SmartLock.
@@ -219,11 +224,15 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 
 	// Determine lock status
 	func getConnectionState() -> Bool {
-		if (smartLock.state == CBPeripheralState.Connected) {
-			return true;
+		if (smartLock != nil) {
+			if (smartLock.state == CBPeripheralState.Connected) {
+				return true
+			} else {
+				discoverDevices()
+				return false
+			}
 		} else {
-			discoverDevices()
-			return false;
+			return false
 		}
 	}
 	

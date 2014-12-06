@@ -14,6 +14,7 @@
 		CEBF55AC1A294D93000C1FCB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEBF55AA1A294D93000C1FCB /* Main.storyboard */; };
 		CEBF55AE1A294D93000C1FCB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEBF55AD1A294D93000C1FCB /* Images.xcassets */; };
 		CEBF55BD1A294D93000C1FCB /* SmartLockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBF55BC1A294D93000C1FCB /* SmartLockTests.swift */; };
+		CED63F5C1A328207003C583A /* LockControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED63F5B1A328207003C583A /* LockControlView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,6 +26,19 @@
 			remoteInfo = SmartLock;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CED63F5A1A3220B7003C583A /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		CE02BA641A31B050001A1BEA /* SmartLockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartLockViewController.swift; sourceTree = "<group>"; };
@@ -38,6 +52,7 @@
 		CEBF55B61A294D93000C1FCB /* SmartLockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartLockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBF55BB1A294D93000C1FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CEBF55BC1A294D93000C1FCB /* SmartLockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartLockTests.swift; sourceTree = "<group>"; };
+		CED63F5B1A328207003C583A /* LockControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockControlView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +97,7 @@
 				CE3325481A3040C600C363AC /* SmartLock.swift */,
 				CEBF55A61A294D93000C1FCB /* AppDelegate.swift */,
 				CEBF55A81A294D93000C1FCB /* DebugViewController.swift */,
+				CED63F5B1A328207003C583A /* LockControlView.swift */,
 				CE02BA641A31B050001A1BEA /* SmartLockViewController.swift */,
 				CEBF55AA1A294D93000C1FCB /* Main.storyboard */,
 				CEBF55AD1A294D93000C1FCB /* Images.xcassets */,
@@ -125,6 +141,7 @@
 				CEBF559D1A294D93000C1FCB /* Sources */,
 				CEBF559E1A294D93000C1FCB /* Frameworks */,
 				CEBF559F1A294D93000C1FCB /* Resources */,
+				CED63F5A1A3220B7003C583A /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -216,6 +233,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE3325491A3040C600C363AC /* SmartLock.swift in Sources */,
+				CED63F5C1A328207003C583A /* LockControlView.swift in Sources */,
 				CEBF55A91A294D93000C1FCB /* DebugViewController.swift in Sources */,
 				CEBF55A71A294D93000C1FCB /* AppDelegate.swift in Sources */,
 				CE02BA651A31B050001A1BEA /* SmartLockViewController.swift in Sources */,
@@ -336,6 +354,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = SmartLock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -350,6 +369,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = SmartLock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
