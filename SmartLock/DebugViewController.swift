@@ -21,29 +21,44 @@ class DebugViewController: UIViewController {
 	@IBOutlet weak var unlockThresholdSlider:UISlider!
 	@IBOutlet weak var unlockThresholdLabel:UILabel!
 	
-	// When application loads
+	// When application loads, and when view appears or disappears
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		self.setNeedsStatusBarAppearanceUpdate()
 		
 		// Start Bluetooth Central Manager
 		smrtLock.startUpCentralManager()
 		
 		// Disable proximity (for demonstration)
-		proximitySwitch.on = false
+		proximitySwitch.on = smrtLock.proximityEnable
 		lockThresholdSlider.value = Float(smrtLock.lockThreshold)
 		lockThresholdLabel.text = "Lock Threshold = \(smrtLock.lockThreshold)"
 		unlockThresholdSlider.value = Float(smrtLock.unlockThreshold)
 		unlockThresholdLabel.text = "Unlock Threshold = \(smrtLock.unlockThreshold)"
 		
-		// Watch for changes in "activity" from SmartLock model (for debug console)
-		smrtLock.addObserver(self, forKeyPath: "activity", options: .New, context: &myContext)
+		// Watch for changes in "debugActivity" from SmartLock model (for debug console)
+		smrtLock.addObserver(self, forKeyPath: "debugActivity", options: .New, context: &myContext)
+	}
+	
+	override func viewDidAppear(animated: Bool) {
+		smrtLock.discoverDevices()
+		proximitySwitch.on = smrtLock.proximityEnable
+	}
+	
+	override func viewDidDisappear(animated: Bool) {
+		smrtLock.disconnectFromSmartLock()
+	}
+	
+	// Set status bar to light
+	override func preferredStatusBarStyle() -> UIStatusBarStyle {
+		return UIStatusBarStyle.LightContent
 	}
 	
 	// Update debug console with activity changes in SmartLock model (MVC)
 	override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
 		if context == &myContext {
 			textField.selectable = false
-			textField.text = "\(smrtLock.activity)\n" + textField.text
+			textField.text = "\(smrtLock.debugActivity)\n" + textField.text
 		} else {
 			super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
 		}
@@ -73,7 +88,7 @@ class DebugViewController: UIViewController {
 	
 	// Toggle proximity mode by enabling/disabling the RSSI timer
 	@IBAction func toggleProximity(proximity: UISwitch) {
-		if (proximity.on) {
+		if (smrtLock.proximityEnable == false) {
 			smrtLock.rssiTimerEnable()
 		} else {
 			smrtLock.rssiTimerDisable()
@@ -95,11 +110,6 @@ class DebugViewController: UIViewController {
 	// Clear debug log
 	@IBAction func clearLog(sender: UIButton) {
 		textField.text = ""
-	}
-
-	// When application quits, remove "activity" observer
-	deinit {
-		smrtLock.removeObserver(self, forKeyPath: "activity", context: &myContext)
 	}
 	
 }

@@ -94,12 +94,12 @@
 		CEBF55A31A294D93000C1FCB /* SmartLock */ = {
 			isa = PBXGroup;
 			children = (
-				CE3325481A3040C600C363AC /* SmartLock.swift */,
 				CEBF55A61A294D93000C1FCB /* AppDelegate.swift */,
-				CEBF55A81A294D93000C1FCB /* DebugViewController.swift */,
-				CED63F5B1A328207003C583A /* LockControlView.swift */,
-				CE02BA641A31B050001A1BEA /* SmartLockViewController.swift */,
 				CEBF55AA1A294D93000C1FCB /* Main.storyboard */,
+				CEBF55A81A294D93000C1FCB /* DebugViewController.swift */,
+				CE02BA641A31B050001A1BEA /* SmartLockViewController.swift */,
+				CED63F5B1A328207003C583A /* LockControlView.swift */,
+				CE3325481A3040C600C363AC /* SmartLock.swift */,
 				CEBF55AD1A294D93000C1FCB /* Images.xcassets */,
 				CEBF55A41A294D93000C1FCB /* Supporting Files */,
 			);

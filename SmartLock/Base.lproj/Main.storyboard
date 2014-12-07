@@ -73,7 +73,7 @@
                                     <action selector="connectSmartLock:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="tIv-Mw-2x8"/>
                                 </connections>
                             </button>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vPL-mD-k8n">
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vPL-mD-k8n">
                                 <rect key="frame" x="535" y="492" width="51" height="31"/>
                                 <color key="onTintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
@@ -216,7 +216,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="474" y="-431"/>
+            <point key="canvasLocation" x="530" y="226"/>
         </scene>
         <!--SmartLock-->
         <scene sceneID="Y4F-G1-006">
@@ -229,14 +229,33 @@
                     <view key="view" contentMode="scaleToFill" id="UE3-iC-oiG">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Locked" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ARa-HP-05w">
+                                <rect key="frame" x="211" y="289" width="178" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="178" id="VBs-D8-Mgw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" red="0.12156862745098039" green="0.12941176470588237" blue="0.14117647058823529" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="MkN-V7-iJ4" firstAttribute="top" secondItem="ARa-HP-05w" secondAttribute="bottom" constant="241" id="7nA-Ic-sKz"/>
+                            <constraint firstItem="ARa-HP-05w" firstAttribute="centerX" secondItem="UE3-iC-oiG" secondAttribute="centerX" id="PIj-0v-BiR"/>
+                            <constraint firstItem="ARa-HP-05w" firstAttribute="top" secondItem="lZC-bI-oAy" secondAttribute="bottom" constant="269" id="b4c-jo-5X9"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="SmartLock" image="TabItemSmartLock" id="6e5-MY-Dbb"/>
+                    <connections>
+                        <outlet property="activityLabel" destination="ARa-HP-05w" id="MRe-5t-dqW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="drw-87-uGM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="474" y="246"/>
+            <point key="canvasLocation" x="530" y="-437"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ZVF-8i-Xay">

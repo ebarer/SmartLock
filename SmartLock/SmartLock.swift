@@ -60,10 +60,13 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	var txCharacteristic:CBCharacteristic!				// Bluetooth TX characteristic
 	
 	var bluetoothState:Bool!							// Bluetooth status
+	var connectState:Bool!
 	var lockStatus:Status!								// Lock status
 	dynamic var activity:String!						// Lock activity
+	dynamic var debugActivity:String!					// Lock activity (debug)
 	
 	// Signal strength (RSSI) in dBm
+	var proximityEnable:Bool!							// Proximity detection status
 	var rssiTimer:NSTimer!								// RSSI update timer
 	var rssiNow:Int!									// Current RSSI value
 	var rssiOld = [Int](count: 3, repeatedValue: 0)		// Previous RSSI values
@@ -80,7 +83,9 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 		super.init()
 		
 		bluetoothState = false
-		lockStatus = Status.Locked
+		connectState = false
+		lockStatus = .Locked
+		proximityEnable = false
 		rssiNow = 0
 	}
 	
@@ -133,7 +138,7 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 				}
 			} else {
 				centralManager.scanForPeripheralsWithServices([uartServiceUUID], options: [CBCentralManagerScanOptionAllowDuplicatesKey: false])
-				output("\tScanning...")
+				output("Scanning...", UI: true)
 			}
 		}
 	}
@@ -144,7 +149,7 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 		centralManager.stopScan()
 		
 		// Connect to SmartLock
-		output("Discovered")
+		output("Discovered", UI: true)
 		smartLock = peripheral
 		smartLockNSUUID = peripheral.identifier
 		connectToSmartLock(peripheral)
@@ -155,7 +160,8 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 		// Set peripheral delegate so it can receive appropriate callbacks
 		// Check peripheral RSSI value
 		// Investigate UART Service
-		output("Connected")
+		connectState = true
+		output("Connected", UI: true)
 		
 		peripheral.delegate = self
 		peripheral.readRSSI()
@@ -164,7 +170,8 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	
 	// Invoked when an existing connection with a SmartLock fails
 	func centralManager(central: CBCentralManager!, didDisconnectPeripheral peripheral: CBPeripheral!, error: NSError!) {
-		output("Disconnected")
+		connectState = false
+		output("Disconnected", UI: true)
 	}
 	
 	
@@ -211,11 +218,11 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 			var response:String = NSString(data: data, encoding: NSUTF8StringEncoding)!
 			switch(response) {
 			case "L":
-				lockStatus = Status.Locked
-				output("Locked")
+				lockStatus = .Locked
+				output("Locked", UI: true)
 			case "U":
-				lockStatus = Status.Unlocked
-				output("Unlocked")
+				lockStatus = .Unlocked
+				output("Unlocked", UI: true)
 			default:
 				output("Bad Data: \(data)")
 			}
@@ -226,12 +233,15 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	func getConnectionState() -> Bool {
 		if (smartLock != nil) {
 			if (smartLock.state == CBPeripheralState.Connected) {
+				connectState = true
 				return true
 			} else {
 				discoverDevices()
+				connectState = false
 				return false
 			}
 		} else {
+			connectState = false
 			return false
 		}
 	}
@@ -239,11 +249,11 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	// Lock SmartLock
 	func lockSmartLock() {
 		if(getConnectionState() == true) {
-			if(lockStatus == Status.Unlocked) {
+			if(lockStatus == .Unlocked) {
 				let txString = "L"
 				let txData = txString.dataUsingEncoding(NSUTF8StringEncoding)
 				lockStatus = Status.Locking
-				output("\tLocking...")
+				output("Locking...", UI: true)
 				smartLock.writeValue(txData, forCharacteristic: txCharacteristic, type: CBCharacteristicWriteType.WithoutResponse)
 			}
 		}
@@ -252,11 +262,11 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	// Unlock SmartLock
 	func unlockSmartLock() {
 		if(getConnectionState() == true) {
-			if(lockStatus == Status.Locked) {
+			if(lockStatus == .Locked) {
 				let txString = "U"
 				let txData = txString.dataUsingEncoding(NSUTF8StringEncoding)
 				lockStatus = Status.Unlocking
-				output("\tUnlocking...")
+				output("Unlocking...", UI: true)
 				smartLock.writeValue(txData, forCharacteristic: txCharacteristic, type: CBCharacteristicWriteType.WithoutResponse)
 			}
 		}
@@ -266,11 +276,15 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	func rssiTimerEnable() {
 		// Initialize a timer to check RSSI value every 1 seconds while connected
 		rssiTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("updateRSSI"), userInfo: nil, repeats: true)
+		proximityEnable = true
 	}
 
 	// Disable the RSSI timer
 	func rssiTimerDisable() {
-		rssiTimer.invalidate()
+		if (rssiTimer != nil) {
+			rssiTimer.invalidate()
+			proximityEnable = false
+		}
 	}
 
 	// Proximity detection
@@ -288,19 +302,19 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 				rssiAverage = ((rssiNow + rssiOld[0] + rssiOld[1] + rssiOld[2])/4)
 				
 				// Output proximity equation
-				if (lockStatus == Status.Locked) {
+				if (lockStatus == .Locked) {
 					output("RSSI: \(rssiAverage) > \(unlockThreshold) = \(rssiAverage > unlockThreshold)")
 				} else {
 					output("RSSI: \(rssiAverage) < \(lockThreshold) = \(rssiAverage < lockThreshold)")
 				}
 
 				// If locked, within range, and moving toward lock: unlock
-				if ((lockStatus == Status.Locked) && (rssiAverage > unlockThreshold)) {
+				if ((lockStatus == .Locked) && (rssiAverage > unlockThreshold)) {
 					unlockSmartLock()
 				}
 
 				// If unlocked, leaving range, and moving away from lock: lock
-				if ((lockStatus == Status.Unlocked) && (rssiAverage < lockThreshold)) {
+				if ((lockStatus == .Unlocked) && (rssiAverage < lockThreshold)) {
 					lockSmartLock()
 				}
 			}
@@ -313,10 +327,15 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 // Debug Functions
 //*******************************************************
 	
-	func output(description: String) {
+	func output(description: String, UI: Bool = false) {
 		let timestamp = generateTimeStamp()
+
+		if (UI.boolValue == true) {
+			activity = "\(description)"
+		}
+		
 		println("[\(timestamp)] \(description)")
-		activity = "\(description)"
+		debugActivity = "\(description)"
 	}
 	
 	func generateTimeStamp() -> NSString {
