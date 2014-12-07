@@ -114,14 +114,15 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	func centralManagerDidUpdateState(central: CBCentralManager!) {
 		switch (central.state) {
 		case .PoweredOff:
-			output("Bluetooth Off")
 			bluetoothState = false
+			output("Bluetooth Off")
 			disconnectFromSmartLock()
 		case .PoweredOn:
-			output("Bluetooth On")
 			bluetoothState = true
+			output("Bluetooth On")
 			discoverDevices()
 		default:
+			bluetoothState = false
 			output("Bluetooth Unknown")
 		}
 	}
@@ -131,6 +132,8 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 		// Avoid scanning by reconnecting to known good SmartLock
 		// If not found, scan for other devices
 		if (bluetoothState == true) {
+			output("Searching...", UI: true)
+			
 			if (smartLockNSUUID != nil) {
 				var peripherals = centralManager.retrievePeripheralsWithIdentifiers([smartLockNSUUID!])
 				for peripheral in peripherals {
@@ -138,7 +141,6 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 				}
 			} else {
 				centralManager.scanForPeripheralsWithServices([uartServiceUUID], options: [CBCentralManagerScanOptionAllowDuplicatesKey: false])
-				output("Scanning...", UI: true)
 			}
 		}
 	}
@@ -224,6 +226,7 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 				lockStatus = .Unlocked
 				output("Unlocked", UI: true)
 			default:
+				lockStatus = .Unknown
 				output("Bad Data: \(data)")
 			}
 		}
