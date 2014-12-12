@@ -28,8 +28,6 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 		return Static.instance
 	}
 	
-	// Bluetooth Communication
-	//
 	
 	
 	// Bluetooth Peripheral Heirarchy:
@@ -60,6 +58,7 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	var txCharacteristic:CBCharacteristic!				// Bluetooth TX characteristic
 	
 	var bluetoothState:Bool!							// Bluetooth status
+	var connectTimer:NSTimer!							// Connection timeout timer
 	var connectState:Bool!
 	var lockStatus:Status!								// Lock status
 	dynamic var activity:String!						// Lock activity
@@ -89,6 +88,8 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 		rssiNow = 0
 	}
 	
+	
+	
 //*******************************************************
 // Central Manager Functions
 //*******************************************************
@@ -107,6 +108,7 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	func disconnectFromSmartLock() {
 		if(smartLock != nil) {
 			centralManager.cancelPeripheralConnection(smartLock)
+			smartLock = nil
 		}
 	}
 	
@@ -137,6 +139,7 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 			if (smartLockNSUUID != nil) {
 				var peripherals = centralManager.retrievePeripheralsWithIdentifiers([smartLockNSUUID!])
 				for peripheral in peripherals {
+					smartLock = peripheral as CBPeripheral
 					connectToSmartLock(peripheral as CBPeripheral)
 				}
 			} else {
@@ -154,6 +157,7 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 		output("Discovered", UI: true)
 		smartLock = peripheral
 		smartLockNSUUID = peripheral.identifier
+		connectTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: Selector("cancelConnect"), userInfo: nil, repeats: false)
 		connectToSmartLock(peripheral)
 	}
 	
@@ -163,6 +167,7 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 		// Check peripheral RSSI value
 		// Investigate UART Service
 		connectState = true
+		connectTimer.invalidate()
 		output("Connected", UI: true)
 		
 		peripheral.delegate = self
@@ -231,6 +236,13 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 			}
 		}
 	}
+	
+	// Cancel connection
+	func cancelConnect() {
+		connectTimer.invalidate()
+		output("Connection timeout", UI: true)
+		disconnectFromSmartLock()
+	}
 
 	// Determine lock status
 	func getConnectionState() -> Bool {
@@ -277,7 +289,7 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	
 	// Enable the RSSI timer for proximity mode
 	func rssiTimerEnable() {
-		// Initialize a timer to check RSSI value every 1 seconds while connected
+		// Initialize a timer to check RSSI value every 0.5 seconds while connected
 		rssiTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("updateRSSI"), userInfo: nil, repeats: true)
 		proximityEnable = true
 	}

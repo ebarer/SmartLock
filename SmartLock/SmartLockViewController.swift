@@ -61,17 +61,18 @@ class SmartLockViewController: UIViewController {
 	
 	// Toggle lock/unlock
 	func lockControlTapped(recognizer: UITapGestureRecognizer) {
+		let servoDelay = 1.25
 		lckControlView.lockStatus = smrtLock.lockStatus
 		
 		if (smrtLock.connectState == true) {
 			if (smrtLock.lockStatus == Status.Locked) {
 				smrtLock.unlockSmartLock()
 				lckControlView.determineColor(smrtLock.connectState, lockStatus: smrtLock.lockStatus)
-				lckControlView.animateLockControl(1.5)
+				lckControlView.animateLockControl(servoDelay)
 			} else if (smrtLock.lockStatus == Status.Unlocked) {
 				smrtLock.lockSmartLock()
 				lckControlView.determineColor(smrtLock.connectState, lockStatus: smrtLock.lockStatus)
-				lckControlView.animateLockControl(1.5)
+				lckControlView.animateLockControl(servoDelay)
 			}
 		} else {
 			lckControlView.determineColor(smrtLock.connectState, lockStatus: smrtLock.lockStatus)

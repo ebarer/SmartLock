@@ -10,15 +10,6 @@ import UIKit
 
 class LockControlView: UIView {
 	
-//    override func drawRect(rect: CGRect) {
-//		// Get the Graphics Context
-//		var context = UIGraphicsGetCurrentContext();
-//		CGContextSetLineWidth(context, 10);
-//		UIColor.redColor().set()
-//		CGContextAddArc(context, (frame.size.width)/2, frame.size.height/2, (frame.size.width - 10)/2, 0.0, CGFloat(M_PI * 2.0), 1)
-//		CGContextStrokePath(context);
-//    }
-	
 	let lockControlShape = CAShapeLayer()
 	let ringAnimation = CABasicAnimation(keyPath: "strokeEnd")
 	var lockStatus:Status!
@@ -57,7 +48,7 @@ class LockControlView: UIView {
 		lockControlShape.addAnimation(ringAnimation, forKey: "animateLockControl")
 	}
 	
-		// Determine ring colour based on lock status
+	// Determine ring colour based on lock status
 	func determineColor(connectState: Bool, lockStatus: Status) {
 		if(connectState == true) {
 			switch (lockStatus) {

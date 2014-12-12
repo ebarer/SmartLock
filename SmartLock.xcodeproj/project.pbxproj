@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CE02BA651A31B050001A1BEA /* SmartLockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE02BA641A31B050001A1BEA /* SmartLockViewController.swift */; };
+		CE2CDE9A1A3680BB00E4999E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2CDE991A3680BB00E4999E /* MainViewController.swift */; };
 		CE3325491A3040C600C363AC /* SmartLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3325481A3040C600C363AC /* SmartLock.swift */; };
 		CEBF55A71A294D93000C1FCB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBF55A61A294D93000C1FCB /* AppDelegate.swift */; };
 		CEBF55A91A294D93000C1FCB /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBF55A81A294D93000C1FCB /* DebugViewController.swift */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		CE02BA641A31B050001A1BEA /* SmartLockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartLockViewController.swift; sourceTree = "<group>"; };
+		CE2CDE991A3680BB00E4999E /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		CE3325481A3040C600C363AC /* SmartLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartLock.swift; sourceTree = "<group>"; };
 		CEBF55A11A294D93000C1FCB /* SmartLock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartLock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBF55A51A294D93000C1FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			children = (
 				CEBF55A61A294D93000C1FCB /* AppDelegate.swift */,
 				CEBF55AA1A294D93000C1FCB /* Main.storyboard */,
+				CE2CDE991A3680BB00E4999E /* MainViewController.swift */,
 				CEBF55A81A294D93000C1FCB /* DebugViewController.swift */,
 				CE02BA641A31B050001A1BEA /* SmartLockViewController.swift */,
 				CED63F5B1A328207003C583A /* LockControlView.swift */,
@@ -235,6 +238,7 @@
 				CE3325491A3040C600C363AC /* SmartLock.swift in Sources */,
 				CED63F5C1A328207003C583A /* LockControlView.swift in Sources */,
 				CEBF55A91A294D93000C1FCB /* DebugViewController.swift in Sources */,
+				CE2CDE9A1A3680BB00E4999E /* MainViewController.swift in Sources */,
 				CEBF55A71A294D93000C1FCB /* AppDelegate.swift in Sources */,
 				CE02BA651A31B050001A1BEA /* SmartLockViewController.swift in Sources */,
 			);
