@@ -81,8 +81,6 @@ class DebugViewController: UIViewController {
 
 	// Diconncet SmartLock
 	@IBAction func disconnectSmartLock(sender: UIButton) {
-		// Lock before disconnecting
-		smrtLock.lockSmartLock()
 		smrtLock.disconnectFromSmartLock()
 	}
 	

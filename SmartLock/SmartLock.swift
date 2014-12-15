@@ -58,8 +58,9 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	var txCharacteristic:CBCharacteristic!				// Bluetooth TX characteristic
 	
 	var bluetoothState:Bool!							// Bluetooth status
+	var scanState:Bool!									// Scan status
+	var connectState:Bool!								// Connection status
 	var connectTimer:NSTimer!							// Connection timeout timer
-	var connectState:Bool!
 	var lockStatus:Status!								// Lock status
 	dynamic var activity:String!						// Lock activity
 	dynamic var debugActivity:String!					// Lock activity (debug)
@@ -82,6 +83,7 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 		super.init()
 		
 		bluetoothState = false
+		scanState = false
 		connectState = false
 		lockStatus = .Locked
 		proximityEnable = false
@@ -91,7 +93,7 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	
 	
 //*******************************************************
-// Central Manager Functions
+// Central Manager (iPhone) Functions
 //*******************************************************
 	
 	// Initializes the central manager with a specified delegate.
@@ -133,7 +135,8 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	func discoverDevices() {
 		// Avoid scanning by reconnecting to known good SmartLock
 		// If not found, scan for other devices
-		if (bluetoothState == true) {
+		if (bluetoothState == true && scanState == false) {
+			scanState = true
 			output("Searching...", UI: true)
 			
 			if (smartLockNSUUID != nil) {
@@ -152,6 +155,7 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	func centralManager(central: CBCentralManager!, didDiscoverPeripheral peripheral: CBPeripheral!, advertisementData: (NSDictionary), RSSI: NSNumber!) {
 		// Conserve battery
 		centralManager.stopScan()
+		scanState = false
 		
 		// Connect to SmartLock
 		output("Discovered", UI: true)
@@ -178,6 +182,7 @@ class SmartLock: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 	// Invoked when an existing connection with a SmartLock fails
 	func centralManager(central: CBCentralManager!, didDisconnectPeripheral peripheral: CBPeripheral!, error: NSError!) {
 		connectState = false
+		scanState = false
 		output("Disconnected", UI: true)
 	}
 	
