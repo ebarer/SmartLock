@@ -3,6 +3,7 @@
 //  SmartLock
 //
 //  Created by Elliot Barer on 2014-12-03.
+//  Updated: 2014-12-18
 //  Copyright (c) 2014 Elliot Barer. All rights reserved.
 //
 
